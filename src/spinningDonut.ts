@@ -1,8 +1,9 @@
 import { $ } from './utils/funcs'
+import { graphics } from './utils/settings'
 
 export class SpinningDonut {
     element
-    timer!: number | null
+    timer!: boolean
     a
     b
     z!: Array<number>
@@ -25,7 +26,7 @@ export class SpinningDonut {
 
     constructor(element: string) {
         this.element = $<HTMLDivElement>(element)
-        this.timer = null
+        this.timer = false
         this.a = 0
         this.b = 0
         this.renderFrame()
@@ -34,13 +35,11 @@ export class SpinningDonut {
     renderFrame() {
         this.z = []
         this.screen = []
-        this.a += 0.07
-        this.b += 0.03
         const width = 80
-        const height = 26
+        const height = 24
 
         for (let k = 0; k < height * width; k++) {
-            this.screen[k] = k % width == 79 ? '\n' : ' '
+            this.screen[k] = '<div id="pixel"></div>'
             this.z[k] = 0
         }
 
@@ -100,26 +99,20 @@ export class SpinningDonut {
                     this.z[this.o] < this.d
                 ) {
                     this.z[this.o] = this.d
-                    this.screen[this.o] = '.,-~:;=!*#$@'[
-                        this.N > 0 ? this.N : 0
-                    ]
+                    this.screen[this.o] = graphics[this.N > 0 ? this.N : 0]
                 }
             }
         }
 
-        console.log(this.element)
-
         this.element.innerHTML = this.screen.join('')
+        this.a += 0.07
+        this.b += 0.03
     }
 
-    animate() {
-        if (this.timer === null) {
-            this.timer = setInterval(() => {
-                this.renderFrame()
-            }, 0.05 * 1000)
-        } else {
-            clearInterval(this.timer)
-            this.timer = null
+    async animate() {
+        while (this.timer !== false) {
+            await new Promise(resolve => setTimeout(resolve, 0.06 * 1000))
+            this.renderFrame()
         }
     }
 }

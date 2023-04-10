@@ -3,7 +3,7 @@ import './style.css'
 import { $ } from './utils/funcs'
 
 $<HTMLDivElement>('#app').innerHTML = `
-    <pre id="donut"></pre>
+    <div id="donut"></div>
     <button class="toggle-btn">Spin Donut</button>
 `
 
@@ -16,9 +16,11 @@ window.addEventListener('DOMContentLoaded', () => {
     toggleSpin.addEventListener('click', () => {
         if (toggled) {
             toggleSpin.innerHTML = 'Spin Donut'
+            donut.timer = false
             toggled = false
         } else {
             toggleSpin.innerHTML = 'Stop Donut'
+            donut.timer = true
             toggled = true
         }
         donut.animate()

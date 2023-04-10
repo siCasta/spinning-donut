@@ -1,3 +1,8 @@
+:root {
+    --screen-width: 80;
+    --screen-height: 24;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -18,14 +23,18 @@ body {
 }
 
 #donut {
-    width: 100%;
-    min-height: 65%;
+    width: calc(var(--screen-width) * 10);
+    height: calc(var(--screen-height) * 20);
     background-color: #2e3440;
-    font-size: 13px;
-    color: #ebcb88;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(var(--screen-width), 1fr);
+    grid-gap: 0px;
+}
+
+#donut #pixel {
+    width: 10px;
+    height: 20px;
+    background-color: transparent;
 }
 
 .toggle-btn {
